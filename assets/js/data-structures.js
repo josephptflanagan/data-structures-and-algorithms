@@ -612,7 +612,110 @@ class BST {
         }
 
     }
+    find(val) { //returns the node, if not present, returns null
 
+        let tempNode = this.root;
+
+        if (!tempNode) {
+
+            return null;
+
+        } else {
+
+            while (true) {
+
+                if (val === tempNode.value) {
+                    return tempNode;
+
+                } else if (val < tempNode.value) {
+
+                    if (tempNode.left) {
+                        tempNode = tempNode.left;
+
+                    } else {
+                        return null;
+
+                    }
+
+                } else if (val > tempNode.value) {
+                    if (tempNode.right) {
+                        tempNode = tempNode.right;
+
+                    }
+                    else {
+                        return null;
+                    }
+                }
+
+            }
+        }
+
+
+    }
+    contains(val) { //returns true if the node exists, false otherwise
+
+        let tempNode = this.root;
+
+        if (!tempNode) {
+
+            return false;
+
+        } else {
+
+            while (true) {
+
+                if (val === tempNode.value) {
+                    return true;
+
+                } else if (val < tempNode.value) {
+
+                    if (tempNode.left) {
+                        tempNode = tempNode.left;
+
+                    } else {
+                        return false;
+
+                    }
+
+                } else if (val > tempNode.value) {
+                    if (tempNode.right) {
+                        tempNode = tempNode.right;
+
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+            }
+        }
+
+
+    }
+    bfs() { //breadth first search
+
+        let queue = [];
+        let contents = [];
+
+        if (!this.root){
+            return null;
+        }
+
+        queue.push(this.root);
+
+        while (queue[0]){
+            if (queue[0].left){
+                queue.push(queue[0].left)
+            }
+            if (queue[0].right){
+                queue.push(queue[0].right)
+            }
+            contents.push(queue.shift())
+        }
+
+        return contents;
+
+    }
 }
 
 let bst = new BST;
@@ -622,6 +725,8 @@ console.log(bst.insert(7));
 console.log(bst.insert(2));
 console.log(bst.insert(4));
 console.log(bst.insert(8));
+
+console.log(bst.bfs());
 
 
 /* BINARY SEARCH TREES - END */
