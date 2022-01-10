@@ -562,49 +562,54 @@ console.log("queue.size ",queue.size);
 
 /* BINARY SEARCH TREES - START */
 
-class Node{
-    constructor (value){
+class Node {
+    constructor(value) {
         this.value = value;
         this.left = null;
         this.right = null;
     }
 }
 
-class BST{
-    constructor(){
+class BST {
+    constructor() {
         this.root = null;
     }
-    insert(val){
+    insert(val) {
 
         let newNode = new Node(val);
         let tempNode = this.root;
 
-        while (true){
 
-        if (!this.root){
+        if (!this.root) {
             this.root = newNode;
             return this;
-        } 
-
-        if (newNode.value < tempNode.value){
-            if(tempNode.left){
-                tempNode = tempNode.left;
-            }
-            else {
-                tempNode.left = newNode;
-                return this;
-            }
-        } else {
-            if(tempNode.right){
-                tempNode = tempNode.right;
-            }
-            else {
-                tempNode.right = newNode;
-                return this;
-            }
         }
 
-    }
+        while (true) {
+
+            if (newNode.value === tempNode.value) {
+
+                return undefined;
+
+            } else if (newNode.value < tempNode.value) {
+                if (tempNode.left) {
+                    tempNode = tempNode.left;
+                }
+                else {
+                    tempNode.left = newNode;
+                    return this;
+                }
+            } else if (newNode.value > tempNode.value) {
+                if (tempNode.right) {
+                    tempNode = tempNode.right;
+                }
+                else {
+                    tempNode.right = newNode;
+                    return this;
+                }
+            }
+
+        }
 
     }
 
