@@ -703,7 +703,7 @@ class BST {
 
         queue.push(this.root);
 
-        while (queue[0]){
+        while (queue.length > 0){
             if (queue[0].left){
                 queue.push(queue[0].left)
             }
@@ -714,6 +714,60 @@ class BST {
         }
 
         return contents;
+
+    }
+    dfsPreOrder(){ //depth first search - pre order
+
+        let data = [];
+
+        function traverse (node){
+
+            data.push(node.value);
+
+            if (node.left){return traverse(node.left)};
+            if (node.right){return traverse(node.right)};
+
+        }
+
+        traverse(this.root);
+
+        return data;
+
+    }
+    dfsPostOrder(){ //depth first search - post order
+
+        let data = [];
+
+        function traverse (node){
+
+            if (node.left){return traverse(node.left)};
+            if (node.right){return traverse(node.right)};
+
+            data.push(node.value);    
+
+        }
+
+        traverse(this.root);
+
+        return data;
+
+    }
+    dfsInOrder(){ //depth first search - in order
+
+        let data = [];
+
+        function traverse (node){
+
+            if (node.left){return traverse(node.left)};
+            data.push(node.value);
+            if (node.right){return traverse(node.right)};
+            
+
+        }
+
+        traverse(this.root);
+
+        return data;
 
     }
 }
