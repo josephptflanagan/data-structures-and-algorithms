@@ -560,7 +560,7 @@ console.log("queue.size ",queue.size);
 
 /*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
 
-/* BINARY SEARCH TREES - START */
+/* BINARY SEARCH TREES - START 
 
 class Node {
     constructor(value) {
@@ -784,5 +784,199 @@ console.log(bst.bfs());
 
 
 /* BINARY SEARCH TREES - END */
+
+/*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
+
+/* BINARY HEAPS - START */
+
+class MaxBinaryHeap {
+    constructor() {
+        this.values = [];
+    }
+    insert(val) {
+
+        this.values.push(val);
+
+        if (this.values.length === 1) {
+            return this.values;
+        }
+
+        let placed = false;
+        let insertIndex = this.values.length - 1;
+
+        while (!placed) {
+
+            let parentIndex = Math.floor((insertIndex - 1) / 2);
+
+            if (insertIndex === 0 || this.values[insertIndex] < this.values[parentIndex]) {
+
+                placed = true
+
+            } else {
+
+                let temp = this.values[parentIndex];
+                this.values[parentIndex] = this.values[insertIndex];
+                this.values[insertIndex] = temp;
+                insertIndex = parentIndex;
+
+            }
+        }
+
+        return this.values;
+
+    }
+    extractMax() {
+
+        if (this.values.length === 0) {
+            return undefined;
+        }
+
+        let max = this.values[0]
+
+        let last = this.values.pop();
+
+        let length = this.values.length;
+
+        if (length > 0) {
+
+            let idx = 0;
+            this.values[idx] = last;
+
+            while (true) {
+
+                let leftChildIdx = (2 * idx + 1)
+                let rightChildIdx = (2 * idx + 2)
+                let leftChild, rightChild;
+
+                let swap = null;
+
+                if (leftChildIdx < length) {
+                    leftChild = this.values[leftChildIdx];
+                    if (leftChild > last) {
+                        swap = leftChildIdx;
+                    }
+                }
+                if (rightChildIdx < length) {
+                    rightChild = this.values[rightChildIdx];
+                    if ((swap == null && rightChild > last) || (rightChild > leftChild && swap !== null)) {
+                        swap = rightChildIdx;
+                    }
+                }
+
+                if (swap === null) break;
+
+                this.values[idx] = this.values[swap];
+                this.values[swap] = last;
+                idx = swap;
+            }
+
+        }
+        return max;
+    }
+}
+
+// let heap = new MaxBinaryHeap;
+// heap.insert(12);
+// heap.insert(11);
+// heap.insert(56);
+// heap.insert(13);
+// heap.insert(87);
+// heap.insert(25);
+// heap.insert(110);
+// console.log('heap: ', heap);
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log(heap.extractMax());
+// console.log('heap: ', heap);
+
+class HeapNode {
+    constructor(val, priority) {
+        this.val = val;
+        this.priority = priority;
+    }
+}
+
+class PriorityQueue {
+    constructor() {
+        this.queue = [];
+    }
+    enqueue(val, priority) {
+
+        let newNode = new HeapNode(val, priority);
+        this.queue.push(newNode);
+        let idx = this.queue.length - 1;
+        const element = this.queue[idx];
+
+        while (idx > 0) {
+            let parentIdx = Math.floor((idx - 1) / 2);
+            let parent = this.queue[parentIdx];
+            if (element.priority >= parent.priority) break;
+            this.queue[parentIdx] = element;
+            this.queue[idx] = parent;
+            idx = parentIdx;
+        }
+    }
+    dequeue() {
+
+        const min = this.queue[0];
+        const end = this.queue.pop();
+
+        if (this.queue.length > 0) {
+
+            this.queue[0] = end;
+            let idx = 0;
+            const length = this.queue.length;
+            const element = this.queue[0];
+
+            while (true) {
+
+                let leftChildIdx = 2 * idx + 1;
+                let rightChildIdx = 2 * idx + 2;
+                let leftChild, rightChild;
+                let swap = null;
+
+                if (leftChildIdx < length) {
+                    leftChild = this.queue[leftChildIdx];
+                    if (leftChild.priority < element.priority) {
+                        swap = leftChildIdx;
+                    }
+                }
+                if (rightChildIdx < length) {
+                    rightChild = this.queue[rightChildIdx];
+                    if (
+                        (swap === null && rightChild.priority < element.priority) ||
+                        (swap !== null && rightChild.priority < leftChild.priority)
+                    ) {
+                        swap = rightChildIdx;
+                    }
+                }
+                if (swap === null) break;
+
+                this.queue[idx] = this.queue[swap];
+                this.queue[swap] = element;
+                idx = swap;
+
+            }
+        }
+
+        return min;
+
+    }
+}
+
+let priority = new PriorityQueue;
+priority.enqueue("first entered", 5);
+priority.enqueue("second entered", 1);
+priority.enqueue("third entered", 2);
+priority.enqueue("fourth entered", 4);
+priority.enqueue("fifth entered", 3);
+console.log("priority: ", priority);
+
+/* BINARY HEAPS - END */
 
 /*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
