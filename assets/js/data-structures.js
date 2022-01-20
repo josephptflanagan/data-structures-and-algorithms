@@ -1067,32 +1067,125 @@ console.log(ht.keys());
 /* GRAPHS - START */
 
 class Graph {
-    constructor (){
+    constructor() {
         this.adjacencyList = {};
     }
-    addVertex (vertex){
-        if(!this.adjacencyList[vertex]){
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
             this.adjacencyList[vertex] = [];
         }
     }
-    addEdge(vertex1, vertex2){
-        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]){
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
             this.adjacencyList[vertex1].push(vertex2);
             this.adjacencyList[vertex2].push(vertex1);
         }
     }
-    removeEdge(vertex1, vertex2){
+    removeEdge(vertex1, vertex2) {
         this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(v => v !== vertex2)
         this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(v => v !== vertex1)
     }
-    removeVertex(vertex){
-        while (this.adjacencyList[vertex].length > 0){
+    removeVertex(vertex) {
+        while (this.adjacencyList[vertex].length > 0) {
             let adjacentVertex = this.adjacencyList[vertex].pop();
             this.removeEdge(vertex, adjacentVertex);
         }
         delete this.adjacencyList[vertex];
     }
+    DFSRecursive(start) {
+
+        let result = [];
+        let visited = {};
+        let adjacencyList = this.adjacencyList;
+
+        let dfs = function (vertex) {
+
+            if (!vertex) {
+                return null;
+            }
+
+            result.push(vertex);
+            visited[vertex] = true;
+            adjacencyList[vertex].forEach(neighbor => {
+                if (!visited[neighbor]) {
+                    dfs(neighbor)
+                }
+            })
+
+        }
+
+        dfs(start);
+
+        return result;
+
+    }
+    DFSIterative(start) {
+        let result = [];
+        let visited = {};
+        let stack = [start];
+        while (stack.length > 0){
+
+            let vertex = stack.pop();
+
+            if(!visited[vertex]){
+                visited[vertex] = true;
+                result.push(vertex);
+                this.adjacencyList[vertex].forEach(neighbor =>{
+                    if (!visited[neighbor]) {
+                        stack.push(neighbor)
+                    }
+                })
+            }
+        }
+
+        return result;
+    }
+    BFS(start){
+        let queue = [start];
+        let visited = {};
+        let result = [];
+
+        while (queue.length > 0){
+
+            let vertex = queue.pop();
+
+            if(!visited[vertex]){
+                visited[vertex] = true;
+                result.push(vertex);
+                this.adjacencyList[vertex].forEach(neighbor =>{
+                    if (!visited[neighbor]) {
+                        queue.unshift(neighbor)
+                    }
+                })
+            }
+
+        }
+
+        return result;
+
+    }
 }
+
+let g = new Graph()
+
+g.addVertex("A");
+g.addVertex("B");
+g.addVertex("C");
+g.addVertex("D");
+g.addVertex("E");
+g.addVertex("F");
+
+g.addEdge("A", "B");
+g.addEdge("A", "C");
+g.addEdge("B", "D");
+g.addEdge("C", "E");
+g.addEdge("D", "E");
+g.addEdge("D", "F");
+g.addEdge("E", "F");
+
+console.log(g.DFSRecursive("A"));
+console.log(g.DFSIterative("A"));
+console.log(g.BFS("A"));
 
 /* GRAPHS - END */
 
