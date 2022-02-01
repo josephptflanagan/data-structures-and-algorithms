@@ -1076,6 +1076,44 @@ function radixSort(arr) {
 
 }
 
+function recursiveFibonacci(n){
+
+    if (n <= 2){
+        return 1;
+    }
+    return recursiveFibonacci(n-1) + recursiveFibonacci(n-2)
+}
+
+function dynamicMemoizationFibonacci(n, memo=[undefined, 1, 1]){
+
+    if(memo[n] !== undefined){
+        return memo[n];
+    }
+
+    let res = dynamicMemoizationFibonacci(n-1,memo) + dynamicMemoizationFibonacci(n-2,memo);
+
+    memo[n] = res;
+
+    return res
+
+}
+
+function dynamicTabulationFibonacci (n){
+
+    if (n <= 2){
+        return 1;
+    }
+
+    let fibNums = [0,1,1]
+
+    for (let i = 3;i <= n;i++){
+        fibNums[i] = fibNums[i-1] + fibNums[i-2];
+    }
+
+    return fibNums[n];
+
+}
+
 /*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
 
 /* ADD UP TO - START 
@@ -2330,7 +2368,7 @@ for (let i = 0; i < x.length; i++) {
 
 /*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
 
-/* RADIX SORT - START */
+/* RADIX SORT - START 
 
 let x = [[2, 7, 4, 3, 8, 1], [12, 5, 7, 3, 2, 6, 4]];
 let correct = [[1, 2, 3, 4, 7, 8], [2, 3, 4, 5, 6, 7, 12]];
@@ -2363,3 +2401,105 @@ for (let i = 0; i < x.length; i++) {
 }
 
 /* RADIX SORT - END */
+
+/*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
+
+/* RECURSIVE FIBONACCI - START 
+
+let x = [1,2,3,4,5,6,7,8,9,10,30];//45
+let correct = [1,1,2,3,5,8,13,21,34,55,832040];//1134903170
+let timeOne, timeTwo;
+
+answerExplainationEl.textContent = "Given an array of numbers, sort them in ascending order";
+
+for (let i = 0; i < x.length; i++) {
+
+    let listEl = document.createElement('li');
+
+    time1 = performance.now();
+
+    let fibonacciNum = recursiveFibonacci(x[i]);
+
+    time2 = performance.now();
+
+    let proper = fibonacciNum == correct[i] ? "correct" : "wrong"
+
+    let coloring = "Fibonacci sequence number " + x[i] + " is " + fibonacciNum + ", this is " + proper;
+
+    let timing = `, and took ${(time2 - time1)} milliseconds to calculate`
+
+    listEl.textContent = coloring + timing;
+
+    answerListEl.appendChild(listEl);
+
+}
+
+/*RECURSIVE FIBONACCI - END */
+
+/*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
+
+/* DYNAMIC MEMOIZATION FIBONACCI - START 
+
+let x = [1,2,3,4,5,6,7,8,9,10,30,45];
+let correct = [1,1,2,3,5,8,13,21,34,55,832040,1134903170];
+let timeOne, timeTwo;
+
+answerExplainationEl.textContent = "Given an array of numbers, sort them in ascending order";
+
+for (let i = 0; i < x.length; i++) {
+
+    let listEl = document.createElement('li');
+
+    time1 = performance.now();
+
+    let fibonacciNum = dynamicMemoizationFibonacci(x[i]);
+
+    time2 = performance.now();
+
+    let proper = fibonacciNum == correct[i] ? "correct" : "wrong"
+
+    let coloring = "Fibonacci sequence number " + x[i] + " is " + fibonacciNum + ", this is " + proper;
+
+    let timing = `, and took ${(time2 - time1)} milliseconds to calculate`
+
+    listEl.textContent = coloring + timing;
+
+    answerListEl.appendChild(listEl);
+
+}
+
+/*DYNAMIC MEMOIZATION FIBONACCI - END */
+
+/*<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>*/
+
+/* DYNAMIC TABULATION FIBONACCI - START */
+
+let x = [1,2,3,4,5,6,7,8,9,10,30,45];
+let correct = [1,1,2,3,5,8,13,21,34,55,832040,1134903170];
+let timeOne, timeTwo;
+
+answerExplainationEl.textContent = "Given an array of numbers, sort them in ascending order";
+
+for (let i = 0; i < x.length; i++) {
+
+    let listEl = document.createElement('li');
+
+    time1 = performance.now();
+
+    let fibonacciNum = dynamicTabulationFibonacci(x[i]);
+
+    time2 = performance.now();
+
+    let proper = fibonacciNum == correct[i] ? "correct" : "wrong"
+
+    let coloring = "Fibonacci sequence number " + x[i] + " is " + fibonacciNum + ", this is " + proper;
+
+    let timing = `, and took ${(time2 - time1)} milliseconds to calculate`
+
+    listEl.textContent = coloring + timing;
+
+    answerListEl.appendChild(listEl);
+
+}
+
+/*DYNAMIC TABULATION FIBONACCI - END */
